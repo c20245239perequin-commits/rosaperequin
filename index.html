@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosa A. Perequin | Portfolio</title>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:where(.dark, .dark *));
+    </style>
+</head>
+
+<body class="bg-slate-950 text-white text-center min-h-screen transition-colors duration-500">
+
+    
+    <header class="bg-slate-900 p-8">
+        <h1 id="title" class="text-4xl font-bold text-cyan-400">
+            MY ANIMATION PORTFOLIO
+        </h1>
+
+        <p id="subtitle" class="text-purple-400 mt-3">
+            Web Developer | Portfolio Designer
+        </p>
+
+        
+        <div class="flex justify-center gap-3 mt-6 flex-wrap">
+            <button id="replay"
+                class="bg-purple-600 px-5 py-3 rounded-xl hover:bg-purple-400 transition">
+                Replay Timeline
+            </button>
+
+           <button id="darkMode"
+                    class="border border-slate-500 px-4 py-2 stay-lg hover:bg-slate-700">
+                   Toggle Dark Mode
+                </button>
+
+        </div>
+
+        
+        <nav class="flex justify-between items-center mt-8 max-[600px]:flex-col gap-5">
+            <span id="logo" class="font-bold text-xl text-purple-400">
+                c20245239.perequin@csav.edu.ph
+            </span>
+
+            <ul id="navLinks" class="flex gap-6 list-none max-[600px]:flex-col">
+                <li><a href="#projects" class="hover:text-cyan-400">Projects</a></li>
+                <li><a href="#services" class="hover:text-cyan-400">Services</a></li>
+                <li><a href="#contact" class="hover:text-cyan-400">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main class="p-10 flex flex-col gap-8 max-[600px]:p-4">
+
+        <!-- PROJECTS -->
+        <section id="projects"
+            class="card bg-yellow-700 p-8 rounded-2xl shadow-lg">
+            <h2 class="text-3xl font-bold">My Projects</h2>
+            <p class="mt-4">
+                Portfolio Website, Payroll System, Business Website,
+                Database System, and Compliance Monitoring System.
+            </p>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services"
+            class="card bg-green-800 border border-cyan-500 p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-cyan-400">My Services</h2>
+            <p class="mt-4">
+                Web Development, System Development, AI Automation,
+                Database Management, and Project Management.
+            </p>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact"
+            class="card bg-slate-800 border border-purple-500 p-8 rounded-2xl">
+            <h2 class="text-3xl font-bold text-purple-400">
+                Let's Work Together!
+            </h2>
+
+            <form id="contactForm"
+                class="flex flex-col gap-4 max-w-md mx-auto mt-6">
+
+                <input name="name" type="text" placeholder="Your Name"
+                    required class="bg-white text-black p-3 rounded-lg">
+
+                <input name="email" type="email" placeholder="Your Email"
+                    required class="bg-white text-black p-3 rounded-lg">
+
+                <textarea name="message" rows="4" placeholder="Your Message"
+                    required class="bg-white text-black p-3 rounded-lg"></textarea>
+
+                <button type="submit"
+                    class="sendBtn bg-cyan-600 p-3 rounded-lg hover:bg-cyan-400 transition">
+                    Send Message
+                </button>
+
+                <p id="formStatus" aria-live="polite"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="bg-slate-900 p-6 text-gray-400">
+        &copy; 2026 Rosa A. Perequin | My Portfolio
+    </footer>
+
+    <script>
+        const replayButton = document.querySelector("#replay");
+        const darkModeButton = document.querySelector("#darkMode");
+        const html = document.documentElement;
+        const body = document.body;
+
+        // GSAP TIMELINE
+        const intro = gsap.timeline({
+            paused: true,
+            defaults: {
+                duration: 0.8,
+                ease: "power3.out"
+            }
+        });
+
+        intro
+            .from("#title", {
+                y: -70,
+                opacity: 0,
+                rotation: -8,
+                duration: 1.1,
+                ease: "elastic.out(1, 0.5)"
+            })
+            .from("#subtitle", {
+                y: 25,
+                opacity: 0
+            }, "-=0.5")
+            .from("#logo", {
+                x: -40,
+                opacity: 0
+            }, "-=0.3")
+            .from("#navLinks li", {
+                y: -25,
+                opacity: 0,
+                stagger: 0.2,
+                ease: "back.out(1.7)"
+            }, "-=0.3")
+            .from(".card", {
+                y: 60,
+                opacity: 0,
+                scale: 0.94,
+                stagger: 0.3
+            }, "-=0.2")
+            .from("#footer", {
+                y: 30,
+                opacity: 0
+            }, "-=0.2");
+
+        // PLAY TIMELINE ON PAGE LOAD
+        intro.play();
+
+        // REPLAY THE ENTIRE TIMELINE
+        replayButton.addEventListener("click", function () {
+            intro.restart();
+        });
+
+        // DARK MODE WITH ROTATION
+        darkModeButton.addEventListener("click", function () {
+            html.classList.toggle("dark");
+
+            // Animate button rotation
+            gsap.fromTo(darkModeButton,
+                { rotation: 0 },
+                {
+                    rotation: 360,
+                    duration: 0.7,
+                    ease: "back.inOut(1.7)",
+                    onComplete: () => {
+                        gsap.set(darkModeButton, { rotation: 0 });
+                    }
+                }
+            );
+
+            // Change body colors
+            if (html.classList.contains("dark")) {
+                body.classList.remove("bg-white", "text-slate-900");
+                body.classList.add("bg-slate-950", "text-white");
+            } else {
+                body.classList.remove("bg-slate-950", "text-white");
+                body.classList.add("bg-white", "text-slate-900");
+            }
+        });
+
+        // HOVER ANIMATION ON PROJECT CARDS
+        document.querySelectorAll(".card").forEach(card => {
+            card.addEventListener("mouseenter", () => {
+                gsap.to(card, {
+                    y: -8,
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            card.addEventListener("mouseleave", () => {
+                gsap.to(card, {
+                    y: 0,
+                    scale: 1,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // SEND MESSAGE DEMO
+        document.querySelector("#contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            document.querySelector("#formStatus").textContent =
+                "Thank you! This is a demo form; no message was sent.";
+
+            gsap.fromTo("#formStatus",
+                { opacity: 0, y: 10 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power2.out"
+                }
+            );
+        });
+    </script>
+
+</body>
+</html>

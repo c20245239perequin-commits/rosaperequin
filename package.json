@@ -1,0 +1,9 @@
+{
+  "name": "rosaperequin",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix rosaperequin run dev",
+    "build": "npm --prefix rosaperequin run build",
+    "preview": "npm --prefix rosaperequin run preview"
+  }
+}
